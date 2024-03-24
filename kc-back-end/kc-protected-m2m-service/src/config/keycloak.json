@@ -1,0 +1,13 @@
+{
+  "realm": "keycloak-demo",
+  "auth-server-url": "http://localhost:8080/auth/",
+  "ssl-required": "external",
+  "resource": "kc-back-end-kc-protected-m2m-service",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "UiClyJx5SsnkNU5GHFl3reA2M7AjG2dG"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

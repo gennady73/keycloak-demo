@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "../../react-wp-build-new"
+		},
+		{
+			"path": "../../react-wp-build"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+	}
+}

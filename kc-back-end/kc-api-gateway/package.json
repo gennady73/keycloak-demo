@@ -1,0 +1,11 @@
+{
+  "name": "kc-api-gateway",
+  "version": "1.0.0",
+  "description": "api-gateway protected by Keycloak",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

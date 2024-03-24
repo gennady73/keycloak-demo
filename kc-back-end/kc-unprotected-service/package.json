@@ -1,0 +1,28 @@
+{
+  "name": "kc-unprotected-service",
+  "version": "1.0.0",
+  "description": "back-end service unprotected by Keycloak",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gennady73/keycloak-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gennady73/keycloak-demo/issues"
+  },
+  "homepage": "https://github.com/gennady73/keycloak-demo#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "express-session": "*",
+    "keycloak-connect": "22.0.1"
+  }
+}

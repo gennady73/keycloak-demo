@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "name": "kc-protected-service",
+            "request": "launch",
+            "localRoot": "${workspaceFolder}/kc-back-end/kc-protected-service/",
+            "cwd": "${workspaceFolder}/kc-back-end/kc-protected-service/",
+            "command": "cd ${workspaceFolder}/kc-back-end/kc-protected-service && npm run debug"
+        },
+        {
+            "type": "node-terminal",
+            "name": "kc-protected-m2m-service",
+            "request": "launch",
+            "localRoot": "${workspaceFolder}/kc-back-end/kc-protected-m2m-service/",
+            "cwd": "${workspaceFolder}/kc-back-end/kc-protected-m2m-service/",
+            "command": "cd ${workspaceFolder}/kc-back-end/kc-protected-m2m-service && npm run debug"
+        },
+        {
+            "type": "chrome",
+            "name": "react-febe-keycloak-frontend",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/kc-front-end/kc-react",
+            "url": "http://localhost:5000",
+            "webRoot": "${workspaceFolder}/kc-front-end/kc-react",
+            "command": "cd ${workspaceFolder}/kc-front-end/kc-react && npm run start"
+
+        }
+    ]
+}

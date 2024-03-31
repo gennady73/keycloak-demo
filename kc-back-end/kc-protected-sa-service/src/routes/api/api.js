@@ -38,7 +38,21 @@ export default function initRoutes(kc) {
 
   });
 
-///////////////// GET ALL USERS IN REALM /////////////////////
+  /* 
+   * GET ALL USERS IN REALM 
+   * The access to the REST API of Keycloak, requires the following:
+   * 
+   * url - The API destination: `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`
+   * token - The access token of service account with apropriate premissions.
+   *
+   * For example:
+   *   const grant_access_token = grant.access_token.token;
+   *   const keycloakUri = 'http://localhost:8080';
+   *   const keycloakRealm = 'keycloak-demo';
+   *   const url = `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`;
+   *     
+   *   getUsers(url, grant_access_token)
+   */
   async function getUsers(url, token) {
     try {
       const response = await axios.get(url,

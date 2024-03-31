@@ -31,7 +31,7 @@ var whitelist = [
 
 app.use(function (req, res, next) {
   var originIndex = whitelist.indexOf(req.header('Origin'));
-  //if (whitelist.indexOf(req.header('Origin')) !== -1) {
+
   if (originIndex !== -1) { 
     res.header("Access-Control-Allow-Origin", `${req.header('Origin')}`);
     res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
@@ -70,12 +70,13 @@ app.use(express.json());
 
 
 /* ROUTES */
+// In this application the protection implemented inside of the router.
 const router = initRoutes(keycloak);
 
 // API Routes, enable CORS handling 
 app.options('/api/*', cors(corsOptions));
 
 // API Routes, enable SSO protection
-// app.use('/api', keycloak.protect(), router);
+// An example of protection outside of the router: app.use('/api', keycloak.protect(), router);
 app.use('/api', router);
 export default app

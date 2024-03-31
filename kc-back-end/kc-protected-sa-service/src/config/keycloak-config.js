@@ -13,7 +13,7 @@ function initKeycloak(memoryStore) {
         console.log("Initializing Keycloak...");
         
         keycloak = new Keycloak({
-            secret: "xxx",
+            secret: "any_key",
             store: memoryStore,
             resave: false,
             saveUninitialized: true

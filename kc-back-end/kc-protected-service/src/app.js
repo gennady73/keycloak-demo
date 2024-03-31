@@ -25,14 +25,13 @@ app.set('env', process.env.NODE_ENV || 'development')
 var whitelist = [
   'http://localhost:5000', 
   'http://localhost:8080',
-  'http://gunger.tlv.csb:8080',
   'http://localhost:3002', 
   'http://localhost:3004'
 ];
 
 app.use(function (req, res, next) {
   var originIndex = whitelist.indexOf(req.header('Origin'));
-  //if (whitelist.indexOf(req.header('Origin')) !== -1) {
+
   if (originIndex !== -1) { 
     res.header("Access-Control-Allow-Origin", `${req.header('Origin')}`);
     res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
@@ -66,7 +65,6 @@ app.use(keycloak.middleware({
     admin: '/'
 }));
 
-
 app.use(express.json());
 
 
@@ -78,9 +76,11 @@ const routerM2M = initRoutesM2M(keycloak);
 app.options('/api/*', cors(corsOptions));
 
 // API Routes, enable SSO protection
+
+// Unprotected route example: app.use('/api/m2m', routerM2M);
 app.use('/api/m2m', keycloak.protect(), routerM2M);
-// app.use('/api/m2m', routerM2M);
+
+// Unprotected route example: app.use('/api', router);
 app.use('/api', keycloak.protect(), router);
-//app.use('/api', router);
 
 export default app

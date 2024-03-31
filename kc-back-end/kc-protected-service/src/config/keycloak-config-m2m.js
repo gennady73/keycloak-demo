@@ -1,3 +1,8 @@
+/* 
+ * Optional, will be in use for demonstration of multi-client case:
+ *
+ */
+
 import session from 'express-session';
 import Keycloak from 'keycloak-connect';
 
@@ -13,7 +18,7 @@ function initKeycloakM2M(memoryStore) {
         console.log("Initializing m2m Keycloak...");
         
         keycloak = new Keycloak({
-            secret: "xxx",
+            secret: "any_key",
             resave: true,
             saveUninitialized: true
         }, 'src/config/keycloak-m2m.json');

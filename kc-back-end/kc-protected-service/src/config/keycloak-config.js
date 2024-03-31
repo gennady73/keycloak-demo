@@ -6,7 +6,7 @@ let keycloak;
 function initKeycloak(memoryStore) {
     if (keycloak) {
         console.log("Use existing Keycloak instance.");
-        
+
         return keycloak;
     }
     else {

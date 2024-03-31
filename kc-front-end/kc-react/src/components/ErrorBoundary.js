@@ -1,9 +1,12 @@
 import React from "react";
 
+/* 
+ * Send the error to a logging service with additional 
+ * information like errorInfo for better debugging:
+ * loggingService.logError(error, errorInfo);
+ */
 function logErrorToService(error, errorInfo) {
-    // Send the error to a logging service (e.g., Sentry, Loggly)
-    // Include additional information like errorInfo for better debugging
-    // loggingService.logError(error, errorInfo);
+
     console.error('Logged error:', error, errorInfo);
 }
 

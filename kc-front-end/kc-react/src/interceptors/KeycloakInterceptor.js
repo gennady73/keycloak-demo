@@ -52,9 +52,7 @@ const initAxiosInstance = () => {
             const redirectUrl = error.response.headers.location;
             return axiosInstance.get(redirectUrl);
         }
-        // if (error.response && [503].includes(error.response.status)) {
-        //     return error.response;
-        // }
+
         return Promise.reject(error.response? error.response : error);
     });
 

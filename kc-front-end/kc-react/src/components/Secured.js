@@ -15,12 +15,6 @@ const useKeycloak = () => {
         kc.onTokenExpired = function() {
             console.log('<<< ON TOKEN EXPIRED >>>');
             kc.updateToken(-1);
-            // const updated = await kc.updateToken(-1);
-            // if (updated === true) {
-            //   console.log('The Keycloak token was updated. <<< * >>>');
-            //   window.accessToken = kc.token;
-            //   window.idToken = kc.idToken;
-            // }
         }
         kc.onAuthRefreshSuccess = function() {
             console.log('<<< ON TOKEN REFRESH SUCCESS >>>');

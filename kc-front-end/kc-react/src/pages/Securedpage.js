@@ -192,8 +192,6 @@ const SecuredPage = () => {
           }
           else if (status === "failure") {
 
-            // let error = response['message']? response['message'] : response;
-            // let error_msg = Array.prototype.map.call([{username: error}], item => item);
             let {error, error_msg} = getResponseErrorMessage(response);
             console.error(`fetchUsersWithSA error: ${error}`);
             setUsersSA(error_msg);

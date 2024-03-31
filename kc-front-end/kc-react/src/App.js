@@ -8,8 +8,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
 
-  //const axiosInstance = require('./interceptors/KeycloakInterceptor.js').axiosInstance;
-
   return (
     <>
     <div className="App">

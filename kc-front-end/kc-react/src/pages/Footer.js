@@ -7,7 +7,6 @@ const Footer = () => {
         <>
         <hr></hr>
         <div className='App-footer'>
-            
             <p>v. 0.0.1</p>
         </div>        
         </>

@@ -38,7 +38,21 @@ export default function initRoutes(kc) {
 
   });
 
-///////////////// GET ALL USERS IN REALM /////////////////////
+  /* 
+   * GET ALL USERS IN REALM 
+   * The access to the REST API of Keycloak, requires the following:
+   * 
+   * url - The API destination: `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`
+   * token - The access token of service account with apropriate premissions.
+   *
+   * For example:
+   *   const grant_access_token = grant.access_token.token;
+   *   const keycloakUri = 'http://localhost:8080';
+   *   const keycloakRealm = 'keycloak-demo';
+   *   const url = `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`;
+   *     
+   *   getUsers(url, grant_access_token)
+   */
   async function getUsers(url, token) {
     try {
       const response = await axios.get(url,
@@ -56,7 +70,7 @@ export default function initRoutes(kc) {
   }
 
   router.get('/users-works-with-sa', keycloak.protect('user'), function (req, res) {
-    //const access_token = (req.kauth && req.kauth.grant)? req.kauth.grant.access_token: undefined;
+
     keycloak.grantManager.obtainFromClientCredentials()
     .then((grant)=>{
   
@@ -85,15 +99,9 @@ export default function initRoutes(kc) {
                 );
             }
             else if(kcUsers.response && kcUsers.response.status == 403) { // status == 403
-              // res.send(
-              //   JSON.stringify(JSON.parse('{"message": "Access denied"}').message, null, 2),
-              // );
               return kcUsers;
             }
             else { // any other
-              // res.send(
-              //   JSON.stringify(JSON.parse('{"message": "Error"}').message, null, 2),
-              // );
               return kcUsers;
             }
   
@@ -121,119 +129,50 @@ export default function initRoutes(kc) {
 
   router.get('/users', keycloak.protect('user'), function (req, res) {
     const access_token = (req.kauth && req.kauth.grant)? req.kauth.grant.access_token: undefined;
-    // keycloak.grantManager.obtainFromClientCredentials()
-    // .then((grant)=>{
-  
-    //   if(!grant.access_token){
-    //     msg = 'Failed to get grant.access_token';
-    //     console.log(msg);
-    //     res.render('index', {
-    //       result: JSON.stringify(JSON.parse(`{"message": "${msg}"}`).message, null, 2),
-    //       event: 'none'
-    //     });
-    //   }
-    //   else {
-    //     grant_access_token = grant.access_token.token;
-    //     console.log(`ACCESS_TOKEN: ${grant_access_token}`);
-        
-    //     const keycloakUri = 'http://localhost:8080';
-    //     keycloakRealm = 'keycloak-demo';
-    //     const url = `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`;
-  
-    //     getUsers(url, grant_access_token)
-    //       .then((kcUsers) => {
-    //         console.log(kcUsers.data);
-    //         if(kcUsers.status && kcUsers.status == 200) { // ok
-    //           res.render('index', {
-    //             result: JSON.stringify(kcUsers.data, null, 2),
-    //             event: 'none'
-    //           });
-    //         }
-    //         else if(kcUsers.response && kcUsers.response.status == 403) { // status == 403
-    //           res.render('index', {
-    //             result: JSON.stringify(JSON.parse('{"message": "Access denied"}').message, null, 2),
-    //             event: 'none'
-    //           });
-    //         }
-    //         else { // any other
-    //           res.render('index', {
-    //             result: JSON.stringify(JSON.parse('{"message": "Error"}').message, null, 2),
-    //             event: 'none'
-    //           });
-    //         }
-  
-    //         return kcUsers;
-            
-    //       })
-    //       .catch((e) => {
-    //         var err_msg  = e.message.replace('\n','');
-    //         console.error(`Error response from M2M: ${err_msg}`);
-    //         res.send(
-    //           JSON.stringify(JSON.parse(`{"message": "${err_msg}"}`).message, null, 4)
-    //         );
-    //       });
-    //   }
-    // })
-    // .catch((e) => {
-    //   var err_msg  = e.message.replace('\n','');
-    //   console.error(`Error response from M2M: ${err_msg}`);
-    //   res.send(
-    //     JSON.stringify(JSON.parse(`{"message": "${err_msg}"}`).message, null, 4)
-    //   );
-    // });
-  
-//////////////////////
-const grant_access_token = access_token.token;
-console.log(`ACCESS_TOKEN: ${grant_access_token}`);
 
-const keycloakUri = 'http://localhost:8080';
-const keycloakRealm = 'keycloak-demo';
-const url = `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`;
+    const grant_access_token = access_token.token;
+    console.log(`ACCESS_TOKEN: ${grant_access_token}`);
 
-getUsers(url, grant_access_token)
-  .then((kcUsers) => {
-    console.log(kcUsers.data);
-    if(kcUsers.status && kcUsers.status == 200) { // ok
-      // res.render('index', {
-      //   result: JSON.stringify(kcUsers.data, null, 2),
-      //   event: 'none'
-      // });
+    const keycloakUri = 'http://localhost:8080';
+    const keycloakRealm = 'keycloak-demo';
+    const url = `${keycloakUri}/auth/admin/realms/${keycloakRealm}/users`;
 
-      res.json(
-        //JSON.stringify(JSON.parse(`{"message": "${kcUsers.data}}"}`).message, null, 4)
-        {
-         message: kcUsers.data //JSON.stringify(kcUsers.data, null, 2)
-        }
+    getUsers(url, grant_access_token)
+    .then((kcUsers) => {
+      console.log(kcUsers.data);
+      if(kcUsers.status && kcUsers.status == 200) { // ok
+        res.json(
+          {
+          message: kcUsers.data
+          }
+        );
+      }
+      else if(kcUsers.response && kcUsers.response.status == 403) { // status == 403
+        res.render('index', {
+          result: JSON.stringify(JSON.parse('{"message": "Access denied"}').message, null, 2),
+          event: 'none'
+        });
+      }
+      else { // any other
+        res.render('index', {
+          result: JSON.stringify(JSON.parse('{"message": "Error"}').message, null, 2),
+          event: 'none'
+        });
+      }
+
+      return kcUsers;
+      
+    })
+    .catch((e) => {
+      var err_msg  = e.message.replace('\n','');
+      console.error(`Error response from M2M: ${err_msg}`);
+      res.send(
+        JSON.stringify(JSON.parse(`{"message": "${err_msg}"}`).message, null, 4)
       );
-    }
-    else if(kcUsers.response && kcUsers.response.status == 403) { // status == 403
-      res.render('index', {
-        result: JSON.stringify(JSON.parse('{"message": "Access denied"}').message, null, 2),
-        event: 'none'
-      });
-    }
-    else { // any other
-      res.render('index', {
-        result: JSON.stringify(JSON.parse('{"message": "Error"}').message, null, 2),
-        event: 'none'
-      });
-    }
-
-    return kcUsers;
-    
-  })
-  .catch((e) => {
-    var err_msg  = e.message.replace('\n','');
-    console.error(`Error response from M2M: ${err_msg}`);
-    res.send(
-      JSON.stringify(JSON.parse(`{"message": "${err_msg}"}`).message, null, 4)
-    );
-  });
+    });
 
   });
   
-
-
 
   return router;
 

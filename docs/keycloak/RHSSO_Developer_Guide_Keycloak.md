@@ -4,7 +4,6 @@
 ---------------------------------------------------------------
 
 This guide starts from the point where the Red Hat SSO(RHSSO) server is up and running.
-
 Note that the RHSSO server wraps another product named Keycloak, so further explanations will be provided as interaction with Keycloak for simplicity. 
 
 ## <a name="_eo65nss1zybc"></a>**Terminology**
@@ -226,13 +225,13 @@ Bearer-only  client (kc-back-end-kc-protected-service)
 
 
 
-**Case:** application which consists of a frontend and several backend services. The backend consists of the API gateway(protected) service and  the back-end(unprotected).The authentication is done via Keycloak. The workflow looks like the following: 
+**Case:** application which consists of a frontend and several back-end services. The backend consists of the back-end service A (protected) and  the back-end service B (unprotected).The authentication is done via Keycloak. The workflow looks like the following: 
 
 - The user logs into the frontend and gets a token from Keycloak.
 - This token is sent to the backend with every request.
-- The API gateway uses a token to request the Keycloak for client authentication and  the authorization(when defined) for the requested resource and in case of success, forwards the request without token to the unprotected back-end. In case of failure, respond with the “access denied” to the client(HTTP code 403 - forbidden).
+- The back-end service A uses a token to request the Keycloak for client authentication and  the authorization(when defined) for the requested resource and in case of success, forwards the request without token to the unprotected back-end. In case of failure, respond with the “access denied” to the client(HTTP code 403 - forbidden).
 - The back-end serves the client request on and returns a response to the API gateway.
-- The API gateway transfer response from the **unprotected** back-end to the client.
+- The back-end service A transfer response from the **unprotected** back-end service B to the client.
 
 
 ![](Aspose.Words.a22510f3-9e76-49e7-8192-e1aca51b31a4.022.png)
@@ -363,88 +362,49 @@ Assuming the oauth2-proxy is running on localhost, port 4180, the settings may l
 
 ```bash
 keycloak\_host='localhost'
-
 keycloak\_port='8080'
-
 realm\_name='sso-demo-3'
-
 client\_id='oauth2proxy-back-end-service'
-
 client\_secret='Y95Nq6XyEXyPvSytov8rt95GEfmRZJxN'
-
 keycloak\_base\_url="http://${keycloak\_host}:${keycloak\_port}/auth/realms/${realm\_name}/protocol/openid-connect"
-
 oauth2p\_host=localhost
-
 oauth2p\_port=4180
-
 redirect\_url="http://localhost:4180/oauth2/callback"
-
 upstream\_url='http://localhost:3004/api/user,http://localhost:3004/api/admin'
-
 ```
 
 Then, the command-line is like following:
 
 ```bash
 ./oauth2-proxy \
-
 --provider=keycloak-oidc \
-
 --set-xauthrequest=true	\
-
 --auth-logging=true \
-
 --pass-authorization-header=true \
-
 --set-xauthrequest=true \
-
 --request-logging=true \
-
 --client-id="${client\_id}" \
-
 --client-secret="${client\_secret}" \
-
 --cookie-secret="${client\_secret}" \
-
 --redirect-url="${redirect\_url}" \
-
 --upstream="${upstream\_url}" \
-
 --oidc-issuer-url="http://${keycloak\_host}:${keycloak\_port}/auth/realms/${realm\_name}" \
-
 --email-domain=\* \
-
 --show-debug-on-error="true" \
-
 --pass-user-headers="true" \
-
 --skip-jwt-bearer-tokens="false" \
-
 --skip-provider-button="true" \
-
 --skip-auth-preflight="true" \
-
 --pass-access-token="true" \
-
 --code-challenge-method=S256 \
-
 --whitelist-domain="localhost:5000 localhost:3004 localhost:4180 localhost:8081 locahost:8080" \
-
 --session-store-type="cookie" \
-
 --cookie-expire="5m" \
-
 --cookie-refresh="3m" \
-
 --scope="openid roles profile email" \
-
 --oidc-extra-audience="aud-mapper-oauth2proxy-back-end-service" \
-
 --insecure-oidc-allow-unverified-email="true" \
-
 --cookie-samesite="none" \
-
 --reverse-proxy="true"
 ```
 
@@ -453,11 +413,8 @@ In case when user groups used, the following parameters should be in use:
 ```bash
 ./oauth2-proxy \
 ....
-
 --keycloak-group=<first\_allowed\_user\_group> \
-
 --keycloak-group=<second\_allowed\_user\_group> \
-
 ....
 ```
 

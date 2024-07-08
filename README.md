@@ -24,7 +24,11 @@ However, each one of them explains these subjects from different perspective:
 - [Front-end applications](kc-front-end/README.md)    
 - [Back-end applications](kc-back-end/README.md)  
 
-### Note: 
-Some sections are still under develomplent.
 
-2023
+### Advanced topics:
+- [Red Hat Single Sign-On (RHSSO) High-Availability](docs/xsite/README.md) - setting up a Red Hat Single Sign-On (RHSSO) high-availability (HA) in various configurations.
+
+### Note: 
+Some sections are still under development.
+
+2023 - 2024

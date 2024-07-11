@@ -503,13 +503,13 @@ For example, the Keycloak instances deployed in LON and NYC sites utilize their 
 
     ```xml 
     <distributed-cache name="actionTokens" owners="4">
-    <remote-store cache="actionTokens" fetch-state="false" passivation="false" preload="false"
-    purge="false" remote-servers="infinispan-server-lon-1 infinispan-server-lon-2" shared="true">
-    <property name="rawValues">true</property>
-    <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
-    </remote-store>
-    <heap-memory size="-1"/>
-    <expiration interval="300000" lifespan="90000000" max-idle="300000"/>
+      <remote-store cache="actionTokens" fetch-state="false" passivation="false" preload="false"
+      purge="false" remote-servers="infinispan-server-lon-1 infinispan-server-lon-2" shared="true">
+        <property name="rawValues">true</property>
+        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+      </remote-store>
+      <heap-memory size="-1"/>
+      <expiration interval="300000" lifespan="90000000" max-idle="300000"/>
     </distributed-cache>
     ```
 
@@ -517,12 +517,12 @@ For example, the Keycloak instances deployed in LON and NYC sites utilize their 
 
     ```xml 
     <distributed-cache name="actionTokens" mode="SYNC" statistics="true">
-    <transaction mode="NON_XA">
-    <locking PESSIMISTIC="true"/>
-    </transaction>
-    <backups>
-    <backup site="NYC" strategy="SYNC" failure-policy="WARN"/>
-    </backups>
+      <transaction mode="NON_XA">
+        <locking PESSIMISTIC="true"/>
+      </transaction>
+      <backups>
+        <backup site="NYC" strategy="SYNC" failure-policy="WARN"/>
+      </backups>
     </distributed-cache>
     ```
 
@@ -531,13 +531,13 @@ For example, the Keycloak instances deployed in LON and NYC sites utilize their 
 
     ```xml 
     <distributed-cache name="actionTokens" owners="4">
-    <remote-store cache="actionTokens" fetch-state="false" passivation="false" preload="false"
-    purge="false" remote-servers="infinispan-server-nyc-1 infinispan-server-nyc-2" shared="true">
-    <property name="rawValues">true</property>
-    <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
-    </remote-store>
-    <heap-memory size="-1"/>
-    <expiration interval="300000" lifespan="90000000" max-idle="300000"/>
+      <remote-store cache="actionTokens" fetch-state="false" passivation="false" preload="false"
+      purge="false" remote-servers="infinispan-server-nyc-1 infinispan-server-nyc-2" shared="true">
+        <property name="rawValues">true</property>
+        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+      </remote-store>
+      <heap-memory size="-1"/>
+      <expiration interval="300000" lifespan="90000000" max-idle="300000"/>
     </distributed-cache>
     ```
 
@@ -545,12 +545,12 @@ For example, the Keycloak instances deployed in LON and NYC sites utilize their 
 
     ```xml 
     <distributed-cache name="actionTokens" mode="SYNC" statistics="true">
-    <transaction mode="NON_XA">
-    <locking PESSIMISTIC="true"/>
-    </transaction>
-    <backups>
-    <backup site="LON" strategy="SYNC" failure-policy="WARN"/>
-    </backups>
+      <transaction mode="NON_XA">
+        <locking PESSIMISTIC="true"/>
+      </transaction>
+      <backups>
+        <backup site="LON" strategy="SYNC" failure-policy="WARN"/>
+      </backups>
     </distributed-cache>
     ```
 

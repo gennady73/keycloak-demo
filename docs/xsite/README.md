@@ -494,3 +494,98 @@ Cross-site Infinispan cluster deployment diagram:
 
 ![Cross site Infinispan cluster diagram](Cross-site_Infinispan.png)
 
+**Relations in deployment:** This setup ensures that data replication flows from the LON site to the NYC site, while the NYC site's data is backed up in the LON site, providing robust data consistency, availability, and performance optimization across geographically distributed deployments of Keycloak. The cache uses the Keycloak-specific HotRod marshaller for serialization, and it has specified memory and expiration settings to manage cache size and data lifetime.
+
+For example, the Keycloak instances deployed in LON and NYC sites utilize their respective local Infinispan clusters for managing a distributed-cache named "actionTokens".
+
+1. **LON Site Configuration:**
+    - **Keycloak Cache:** Configured as a distributed-cache with ownership spread across 4 nodes (```owners="4"```).
+
+    ```xml 
+    <distributed-cache name="actionTokens" owners="4">
+    <remote-store cache="actionTokens" fetch-state="false" passivation="false" preload="false"
+    purge="false" remote-servers="infinispan-server-lon-1 infinispan-server-lon-2" shared="true">
+    <property name="rawValues">true</property>
+    <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+    </remote-store>
+    <heap-memory size="-1"/>
+    <expiration interval="300000" lifespan="90000000" max-idle="300000"/>
+    </distributed-cache>
+    ```
+
+    - **Infinispan Cache:** Also named "actionTokens", configured in SYNC mode with transactional settings optimized for non-transactional operations (```mode="SYNC"``` and ```<transaction mode="NON_XA">```). Pessimistic locking is enabled (```<locking PESSIMISTIC="true"/>```). It includes a backup configuration pointing to the NYC site for replication (```<backup site="NYC" strategy="SYNC" failure-policy="WARN"/>```).
+
+    ```xml 
+    <distributed-cache name="actionTokens" mode="SYNC" statistics="true">
+    <transaction mode="NON_XA">
+    <locking PESSIMISTIC="true"/>
+    </transaction>
+    <backups>
+    <backup site="NYC" strategy="SYNC" failure-policy="WARN"/>
+    </backups>
+    </distributed-cache>
+    ```
+
+1. **NYC Site Configuration:**
+    - **Keycloak Cache:** Similar to LON, configured as a distributed-cache with ownership spread across 4 nodes (```owners="4"```).
+
+    ```xml 
+    <distributed-cache name="actionTokens" owners="4">
+    <remote-store cache="actionTokens" fetch-state="false" passivation="false" preload="false"
+    purge="false" remote-servers="infinispan-server-nyc-1 infinispan-server-nyc-2" shared="true">
+    <property name="rawValues">true</property>
+    <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+    </remote-store>
+    <heap-memory size="-1"/>
+    <expiration interval="300000" lifespan="90000000" max-idle="300000"/>
+    </distributed-cache>
+    ```
+
+    - **Infinispan Cache:** Configured with the same name "actionTokens", in SYNC mode with transactional settings optimized for non-transactional operations (```mode="SYNC"``` and ```<transaction mode="NON_XA">```). Pessimistic locking is enabled (```<locking PESSIMISTIC="true"/>```). It includes a backup configuration pointing to the LON site for redundancy (```<backup site="LON" strategy="SYNC" failure-policy="WARN"/>```).
+
+    ```xml 
+    <distributed-cache name="actionTokens" mode="SYNC" statistics="true">
+    <transaction mode="NON_XA">
+    <locking PESSIMISTIC="true"/>
+    </transaction>
+    <backups>
+    <backup site="LON" strategy="SYNC" failure-policy="WARN"/>
+    </backups>
+    </distributed-cache>
+    ```
+
+#### **Network configuration**
+
+Create a dedicated network(if not exist) for RHSSO components.
+
+  ```bash
+  podman network create infinispan_mynetwork
+  ```
+
+#### **The Infinispan cross-site configuration**
+
+- **Cache configuration**: The xsite-cache-lon.xml, xsite-cache-nyc.xml files are used to create cluster caches.
+    - **Docker compose file:** docker-compose.yaml
+    - **Storage**: Create directory for each node in cluster and copy configuration xml files as following:
+
+  ```bash 
+  ├── docker-compose.yaml
+  ├── ispn-lon-1
+  │ ├── infinispan-xsite.xml
+  │ └── xsite-cache-lon.xml
+  ├── ispn-lon-2
+  │ ├── infinispan-xsite.xml
+  │ └── xsite-cache-lon.xml
+  ├── ispn-nyc-1
+  │ ├── infinispan-xsite.xml
+  │ └── xsite-cache-nyc.xml
+  ├── ispn-nyc-2
+  │ ├── infinispan-xsite.xml
+  │ └── xsite-cache-nyc.xml
+  ```
+
+- **Run the cluster containers:**
+
+  ```bash
+  podman-compose up
+  ```

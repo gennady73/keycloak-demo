@@ -57,7 +57,7 @@ const fetchResourceM2M = async (id) => {
 
 const fetchUsersWithSA = async (id, url) => {
   try {
-    
+        
     const { data } = await axiosInstance.get(`${url}/${id}`, {
       crossDomain: true,
       mode: 'cors',
@@ -74,7 +74,7 @@ const fetchUsersWithSA = async (id, url) => {
 
 const fetchUsersM2M = async (id) => {
   try {
-debugger;
+
     if (window === undefined || window.accessToken === undefined || window.idToken === undefined) {
       return { status: "success", response: ['none'] };
     }
@@ -107,6 +107,7 @@ const SecuredPage = () => {
   const [data, setData] = useState(null);
   const [dataM2M, setDataM2M] = useState(null);
   const [isM2M, setM2M] = useState(false);
+  const [isM2MSA, setM2MSA] = useState(false);
   const [users, setUsers] = useState(null);
   const [isSA, setSA] = useState(false);
   const [usersSA, setUsersSA] = useState(null);
@@ -123,7 +124,7 @@ const SecuredPage = () => {
         uid = (uid && uid.startsWith("user")) ? uid.slice(0, uid.length - 1) : uid;
         console.log("3. uid %s", uid);
 
-        const { status, response } = (isM2M === true)? await fetchResourceM2M(uid,) : await fetchResource(uid);
+        const { status, response } = (isM2M === true)? await fetchResourceM2M(uid) : await fetchResource(uid);
 
         if (status === "success") {
 
@@ -133,6 +134,7 @@ const SecuredPage = () => {
           setError(null);
           setResourceID('');
           setM2M(false);
+          setM2MSA(false);
         }
         else if (status === "failure") {
 
@@ -142,11 +144,12 @@ const SecuredPage = () => {
           (isM2M === true)? setDataM2M(data) : setData(data);
           setResourceID('');
           setM2M(false);
+          setM2MSA(false);
         }
 
       }
 
-      if (isM2M === true) {
+      if (isM2MSA === true) {
 
         try {
           const { status, response } = await fetchUsersM2M("users");
@@ -157,7 +160,7 @@ const SecuredPage = () => {
             const data = response['message']? response['message'] : response;
             _users = Array.prototype.map.call(data, item => item);
             setUsers(_users);
-            setM2M(false);
+            setM2MSA(false);
           }
           else if (status === "failure") {
 
@@ -165,13 +168,13 @@ const SecuredPage = () => {
             console.error(`fetchUsersM2M error: ${error}`);
             setUsers(error_msg);
 
-            setM2M(false);
+            setM2MSA(false);
           }
         }
         catch(error) {
 
           setUsers(null);
-          setM2M(false);
+          setM2MSA(false);
           console.error(`fetchUsersM2M error: ${error}`);
         };
       }
@@ -207,13 +210,13 @@ const SecuredPage = () => {
 
     };
     fetchData();
-  }, [resourceID, keycloak, error, isM2M, users, isSA, usersSA]);
+  }, [resourceID, keycloak, error, isM2M, isM2MSA, users, isSA, usersSA]);
 
 
   return (
 
     <div className='App-body'>
-      <h1>Welcome to the Protected Page.</h1>
+      {/* <h3>Welcome to the Protected Page.</h3> */}
       <hr></hr>
 
       {keycloak.authenticated && (
@@ -316,8 +319,8 @@ const SecuredPage = () => {
             <tr>
                 <td>
                     <div>
-                      <button onClick={() => {setM2M(true);}}>
-                        Get m2m resource using 'serive account'
+                      <button onClick={() => {setM2MSA(true);}}>
+                        Get m2m resource using 'service account'
                       </button>
                     </div>
                 </td>
@@ -363,7 +366,7 @@ const SecuredPage = () => {
                 <td>
                     <div>
                       <button onClick={() => {setSA(true);}}>
-                        Get resource using a 'serive account'
+                        Get resource using a 'service account'
                       </button>
                     </div>
                 </td>

@@ -25,13 +25,17 @@
     ...
     ```
 
-- Run the whole system.
+- Startup the whole system.
   The Docker uses same syntax. From [containers](containers) directory
     ```bash
     podman-compose up
     ```
+
 - Shutdown  
     The Docker uses same syntax. From [containers](containers) directory
     ```bash
     podman-compose down -v
     ```
+ 
+ 
+ ## The RHSSO server will be available at: http://8080/auth

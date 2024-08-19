@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   rh-sso-db:
-    image: keycloak-db:latest
+    image: gennady73/keycloak-db:latest
     container_name: rh-sso-db
     hostname: localdb
     ports:
@@ -13,7 +13,7 @@ services:
       - rh-sso-net
 
   rh-sso-server-ha1:
-    image: keycloak-host-ha1:7.6.4-demo
+    image: gennady73/keycloak-host-ha1:7.6.4-demo
     container_name: rh-sso-server-ha1
     hostname: rh-sso-server-ha1
     ports:

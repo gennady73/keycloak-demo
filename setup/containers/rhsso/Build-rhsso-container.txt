@@ -1,0 +1,93 @@
+
+##########
+mkdir keystore
+openssl req -new -newkey rsa:2048 -x509 -keyout keystore/xpaas.key -out keystore/xpaas.crt -days 365 -subj "/CN=localhost" -nodes
+keytool -genkeypair -keyalg RSA -keysize 2048 -dname "CN=localhost" -alias jboss -keystore keystore/keystore.jks -storepass secret -keypass secret
+keytool -certreq -keyalg rsa -alias jboss -keystore keystore/keystore.jks -file keystore/sso.csr -storepass secret
+openssl x509 -req -CA keystore/xpaas.crt -CAkey keystore/xpaas.key -in keystore/sso.csr -out keystore/sso.crt -days 365 -CAcreateserial
+keytool -import -file keystore/xpaas.crt -alias xpaas.ca -keystore keystore/keystore.jks -storepass secret -trustcacerts -noprompt
+keytool -import -file keystore/sso.crt -alias jboss -keystore keystore/keystore.jks -storepass secret
+
+mkdir jgroups
+keytool -genseckey -alias secret-key -storetype JCEKS -keystore jgroups/jgroups.jceks -storepass secret -keypass secret
+
+mkdir truststore
+keytool -import -file keystore/xpaas.crt -alias xpaas.ca -keystore truststore/truststore.jks -storepass secret -trustcacerts -noprompt
+
+#########################
+# Generate certificates
+#########################
+1. Use the script 'generate_certificates.sh'.
+   prerequisites: The "openssl" utility must be installed.
+
+2. Make the script executable:
+   chmod +x generate_certificates.sh
+
+3. Run the script with optional arguments:
+   ./generate_certificates.sh [CN] [STOREPASS] [KEYPASS] [DAYS] [KEYSIZE]
+
+   where: 
+   - CN: Common Name (default: localhost)
+   - STOREPASS: Password for keystore and truststore (default: secret)
+   - KEYPASS: Password for the private key (default: secret)
+   - DAYS: Validity period for the certificate (default: 365)
+   - KEYSIZE: Key size in bits (default: 2048)
+
+   If you don't provide any arguments, the script will use the default values.
+
+##########################
+# Containerfile setup
+##########################
+1. Copy from project location assets/realm-export.json as keycloak-demo-realm.json into directory within Containerfile.
+2. In the keycloak-demo-realm.json file, change value of policies.type = "js" to policies.type = "resource".
+3. Copy the following files into directory within Containerfile.
+   application-roles.properties
+   standalone-ha1.xml
+   application-users.properties  
+   mgmt-users.properties
+   
+4. Copy Postgresql driver and configuration files as following:
+   postgresql-42.7.3.jar
+   module.xml
+
+5. Build image using Containerfile as following:
+   podman build -t keycloak-host-ha1:7.6.4-demo -f Containerfile .
+
+6. Run keycloak-host-ha1:7.6.4-demo container as following:
+  6.1 podman network create infinispan_mynetwork 
+  6.2 podman run --rm \
+  --name rh-sso-server-ha1 \
+  --hostname=rh-sso-server-ha1 \
+  -p 8444:8444 \
+  -p 9029:9029 \
+  -p 8081:8081 \
+  -p 8331:8331 \
+  -p 8694:8694 \
+  -p 9139:9139 \
+  -p 10241:10241 \
+  -p 9991:9991 \
+  -e PROXY_ADDRESS_FORWARDING=true \
+  -e KEYCLOAK_ADMIN=admin \
+  -e KEYCLOAK_ADMIN_PASSWORD=admin \
+  -e SSO_HOSTNAME=localhost \
+  -e SSO_ADMIN_USERNAME=admin \
+  -e SSO_ADMIN_PASSWORD=admin \
+  -e SSO_REALM=test \
+  -e HTTPS_KEYSTORE_DIR=/etc/keystore \
+  -e HTTPS_KEYSTORE=keystore.jks \
+  -e HTTPS_KEYSTORE_TYPE=jks \
+  -e HTTPS_NAME=jboss \
+  -e HTTPS_PASSWORD=secret \
+  -e JGROUPS_ENCRYPT_KEYSTORE_DIR=/etc/jgroups \
+  -e JGROUPS_ENCRYPT_KEYSTORE=jgroups.jceks \
+  -e JGROUPS_ENCRYPT_NAME=secret-key \
+  -e JGROUPS_ENCRYPT_PASSWORD=secret \
+  -e JGROUPS_CLUSTER_PASSWORD=random \
+  -e SSO_TRUSTSTORE=truststore.jks \
+  -e SSO_TRUSTSTORE_DIR=/etc/truststore \
+  -e SSO_TRUSTSTORE_PASSWORD=secret \
+  -v $PWD/keystore:/etc/keystore:Z \
+  -v $PWD/jgroups:/etc/jgroups:Z \
+  -v $PWD/truststore:/etc/truststore:Z \
+  -v $PWD/standalone-ha.xml:$JBOSS_HOME/standalone/configuration/standalone-ha1.xml:Z
+  keycloak-host-ha1:7.6.4-demo

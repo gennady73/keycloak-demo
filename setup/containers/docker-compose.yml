@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  rh-sso-db:
+    image: keycloak-db:latest
+    container_name: rh-sso-db
+    hostname: localdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./dbdata:/var/lib/pgsql/data:Z
+    networks:
+      - rh-sso-net
+
+  rh-sso-server-ha1:
+    image: keycloak-host-ha1:7.6.4-demo
+    container_name: rh-sso-server-ha1
+    hostname: rh-sso-server-ha1
+    ports:
+      - "8444:8444"
+      - "9029:9029"
+      - "8081:8081"
+      - "8331:8331"
+      - "8694:8694"
+      - "9139:9139"
+      - "10241:10241"
+      - "9991:9991"
+    environment:
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+      SSO_HOSTNAME: "localhost"
+      SSO_ADMIN_USERNAME: "admin"
+      SSO_ADMIN_PASSWORD: "admin"
+      SSO_REALM: "test"
+      HTTPS_KEYSTORE_DIR: "/etc/keystore"
+      HTTPS_KEYSTORE: "keystore.jks"
+      HTTPS_KEYSTORE_TYPE: "jks"
+      HTTPS_NAME: "jboss"
+      HTTPS_PASSWORD: "secret"
+      JGROUPS_ENCRYPT_KEYSTORE_DIR: "/etc/jgroups"
+      JGROUPS_ENCRYPT_KEYSTORE: "jgroups.jceks"
+      JGROUPS_ENCRYPT_NAME: "secret-key"
+      JGROUPS_ENCRYPT_PASSWORD: "secret"
+      JGROUPS_CLUSTER_PASSWORD: "random"
+      SSO_TRUSTSTORE: "truststore.jks"
+      SSO_TRUSTSTORE_DIR: "/etc/truststore"
+      SSO_TRUSTSTORE_PASSWORD: "secret"
+    volumes:
+      - ./rhsso/keystore:/etc/keystore:Z
+      - ./rhsso/jgroups:/etc/jgroups:Z
+      - ./rhsso/truststore:/etc/truststore:Z
+      - ./rhsso/standalone-ha.xml:/opt/eap/standalone/configuration/standalone-ha1.xml:Z
+    networks:
+      - rh-sso-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://keycloak-host-ha1:9991/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  
+  rhsso-haproxy:
+    image: haproxy:latest
+    container_name: rhsso-haproxy
+    hostname: rhsso-haproxy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./haproxy/haproxy.standalone.cfg:/usr/local/etc/haproxy/haproxy.cfg:Z
+    depends_on:
+      rh-sso-server-ha1:
+        condition: service_healthy
+    networks:
+      - rh-sso-net
+
+networks:
+  rh-sso-net:
+    external: true
+

@@ -1,0 +1,78 @@
+FROM registry.redhat.io/rh-sso-7/sso76-openshift-rhel8:7.6-24
+
+# Optional step, install network tools. 
+USER root
+RUN microdnf -y update --disableplugin subscription-manager \
+ && microdnf -y install --disableplugin subscription-manager sudo iputils hostname findutils less vim net-tools \
+ && microdnf clean all
+
+# USER jboss
+USER 185
+
+# Environment variables
+ENV JBOSS_HOME="/opt/eap" \
+    SSO_HOSTNAME=localhost \
+    SSO_ADMIN_USERNAME=admin \
+    SSO_ADMIN_PASSWORD=admin \
+    SSO_REALM=test \
+    HTTPS_KEYSTORE_DIR=/etc/keystore \
+    HTTPS_KEYSTORE=keystore.jks \
+    HTTPS_KEYSTORE_TYPE=jks \
+    HTTPS_NAME=jboss \
+    HTTPS_PASSWORD=secret \
+    JGROUPS_ENCRYPT_KEYSTORE_DIR=/etc/jgroups \
+    JGROUPS_ENCRYPT_KEYSTORE=jgroups.jceks \
+    JGROUPS_ENCRYPT_NAME=secret-key \
+    JGROUPS_ENCRYPT_PASSWORD=secret \ 
+    JGROUPS_CLUSTER_PASSWORD=random \
+    SSO_TRUSTSTORE=truststore.jks \
+    SSO_TRUSTSTORE_DIR=/etc/truststore \
+    SSO_TRUSTSTORE_PASSWORD=secret \
+    CACHE_OWNERS=2 \
+    CACHE_OWNERS_AUTH_SESSIONS=2 \
+    CACHE_OWNERS_SESSIONS=2 \
+    PROXY_ADDRESS_FORWARDING=true \
+    KC_HEALTH_ENABLED=true \
+    KC_METRICS_ENABLED=true
+
+# Setup RHSSO server configurations
+COPY --chown=185:root standalone-ha1.xml $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root application-users.properties $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root application-roles.properties $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root mgmt-users.properties $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root keycloak-demo-realm.json $JBOSS_HOME/standalone/data/import/
+RUN ls -la $JBOSS_HOME/standalone/data/import/
+
+# Setup Postgresql database driver
+RUN \ 
+ mkdir -p $JBOSS_HOME/modules/system/layers/keycloak/org/postgres/main \
+ && chown -R 185:root $JBOSS_HOME/modules/system/layers/keycloak/org/postgres \
+ && chmod -R 775 $JBOSS_HOME/modules/system/layers/keycloak/org/postgres
+
+COPY postgresql-42.7.3.jar module.xml $JBOSS_HOME/modules/system/layers/keycloak/org/postgres/main/
+
+# Ports in use
+EXPOSE 5432
+EXPOSE 8779
+EXPOSE 8081
+EXPOSE 8444
+EXPOSE 8889
+EXPOSE 9991
+
+# Setup RHSSO admin account 
+RUN $JBOSS_HOME/bin/add-user-keycloak.sh -u $SSO_ADMIN_USERNAME -r master -p $SSO_ADMIN_PASSWORD
+
+# Launch RHSSO server
+CMD \
+$JBOSS_HOME/bin/standalone.sh --server-config=standalone-ha1.xml \
+-Djboss.socket.binding.port-offset=1 \
+-Djboss.node.name=jdg1 \
+-Djboss.default.multicast.address:228.6.7.12 \
+-Djboss.http.port=8080 \
+-Djboss.bind.address=rh-sso-server-ha1 \
+-Djboss.bind.address.management=rh-sso-server-ha1 \
+-Dkeycloak.migration.action=import \
+-Dkeycloak.migration.provider=singleFile \
+-Dkeycloak.migration.file=$JBOSS_HOME/standalone/data/import/keycloak-demo-realm.json \
+-Dkeycloak.migration.strategy=IGNORE_EXISTING
+

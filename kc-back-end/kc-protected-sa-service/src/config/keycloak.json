@@ -4,7 +4,7 @@
   "ssl-required": "external",
   "resource": "kc-back-end-kc-protected-m2m-service-with-service-account",
   "credentials": {
-    "secret": "d3e48Lwvo0TO3iRqBa3cqIkTvFRfPyNc"
+    "secret": "Q9CXMvfKFNV5tOgFQfMxKKnb5tZzcQoF"
   },
   "confidential-port": 0
 }

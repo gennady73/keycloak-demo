@@ -1,0 +1,101 @@
+FROM registry.redhat.io/rh-sso-7/sso76-openshift-rhel8:7.6-23
+#FROM registry.redhat.io/rh-sso-7/sso76-openshift-rhel8:7.6-24
+#FROM registry.redhat.io/ubi8/ubi:8.9-1160
+
+#RUN whoami
+
+USER root
+RUN microdnf -y update --disableplugin subscription-manager \
+ && microdnf -y install --disableplugin subscription-manager sudo iputils hostname findutils less vim net-tools \
+ && microdnf clean all
+
+#USER jboss
+USER 185
+
+#RUN mkdir /opt/eap
+#COPY --chown=185:root /home/gunger/Documents/RHSSO/demo/rh-sso-7.6 /opt/eap/
+
+#WORKDIR /opt/eap
+
+ENV JBOSS_HOME="/opt/eap" \
+    SSO_HOSTNAME=localhost \
+    SSO_ADMIN_USERNAME=admin \
+    SSO_ADMIN_PASSWORD=admin \
+    SSO_REALM=test \
+    HTTPS_KEYSTORE_DIR=/etc/keystore \
+    HTTPS_KEYSTORE=keystore.jks \
+    HTTPS_KEYSTORE_TYPE=jks \
+    HTTPS_NAME=jboss \
+    HTTPS_PASSWORD=secret \
+    JGROUPS_ENCRYPT_KEYSTORE_DIR=/etc/jgroups \
+    JGROUPS_ENCRYPT_KEYSTORE=jgroups.jceks \
+    JGROUPS_ENCRYPT_NAME=secret-key \
+    JGROUPS_ENCRYPT_PASSWORD=secret \ 
+    JGROUPS_CLUSTER_PASSWORD=random \
+    SSO_TRUSTSTORE=truststore.jks \
+    SSO_TRUSTSTORE_DIR=/etc/truststore \
+    SSO_TRUSTSTORE_PASSWORD=secret \
+    CACHE_OWNERS=2 \
+    CACHE_OWNERS_AUTH_SESSIONS=2 \
+    CACHE_OWNERS_SESSIONS=2
+
+#RUN mkdir $JBOSS_HOME/domain \
+# && mkdir $JBOSS_HOME/domain/servers \
+# && chown -R 185:root $JBOSS_HOME/domain \
+# && chmod -R 775 $JBOSS_HOME/domain
+
+
+#COPY --chown=185:root ./domain/ $JBOSS_HOME/domain/
+#COPY --chown=185:root /home/gunger/Documents/RHSSO/demo/rh-sso-7.6 $JBOSS_HOME/
+#COPY --chown=185:root ../rh-sso-7.6 $JBOSS_HOME/
+COPY --chown=185:root standalone-ha1.xml $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root application-users.properties $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root application-roles.properties $JBOSS_HOME/standalone/configuration/
+COPY --chown=185:root mgmt-users.properties $JBOSS_HOME/standalone/configuration/
+#COPY domain.xml $JBOSS_HOME/domain/configuration/
+#COPY domain.sh $JBOSS_HOME/bin/
+#COPY migrate-domain-clustered.cli $JBOSS_HOME/bin/
+#COPY keycloak-add-user.json $JBOSS_HOME/domain/servers/
+
+RUN \ 
+ mkdir -p $JBOSS_HOME/modules/system/layers/keycloak/org/postgres/main \
+ && chown -R 185:root $JBOSS_HOME/modules/system/layers/keycloak/org/postgres \
+ && chmod -R 775 $JBOSS_HOME/modules/system/layers/keycloak/org/postgres
+
+COPY postgresql-42.7.3.jar module.xml $JBOSS_HOME/modules/system/layers/keycloak/org/postgres/main/
+
+EXPOSE 5432
+EXPOSE 8779
+EXPOSE 8081
+EXPOSE 8444
+EXPOSE 8889
+EXPOSE 9991
+
+# APPLY PATCH
+# COPY --chown=185:root ./rh-sso-7.6.4-patch.zip /tmp/
+#
+# USER root
+#RUN $JBOSS_HOME/bin/jboss-cli.sh --command="patch apply /tmp/rh-sso-7.6.4-patch.zip" \
+# && rm -f /tmp/rh-sso-7.6.4-patch.zip
+#USER 185
+
+#RUN $JBOSS_HOME/bin/add-user-keycloak.sh --domain -r master --roles admin -u $SSO_ADMIN_USERNAME -p $SSO_ADMIN_PASSWORD
+
+COPY --chown=185:root ./undertow/main/ /opt/eap/modules/system/layers/base/org/wildfly/extension/undertow/main
+COPY --chown=185:root ./io/netty/main /opt/eap/modules/system/layers/base/io/netty/main
+COPY --chown=185:root ./libnetty_transport_native_epoll_x86_64.so /opt/eap/modules/system/layers/base/io/netty/main/lib/META-INF/native/netty_transport_native_epoll_x86_64.so
+RUN chmod a+x /opt/eap/modules/system/layers/base/io/netty/main/lib/META-INF/native/netty_transport_native_epoll_x86_64.so
+RUN chmod a+x /opt/eap/modules/system/layers/base/io/netty/main/lib/META-INF/native/libnetty_transport_native_epoll_x86_64.so
+
+COPY --chown=185:root ./libnetty_transport_native_epoll_x86_64.so /lib64/libnetty_transport_native_epoll_x86_64.so
+RUN chmod a+x /lib64/libnetty_transport_native_epoll_x86_64.so
+
+ENV PATH "$PATH:/opt/eap/modules/system/layers/base/io/netty/main/lib/META-INF/native"
+ENV CLASSPATH "$CLASSPATH:/opt/eap/modules/system/layers/base/io/netty/main/netty-all-4.1.63.Final-redhat-00001.jar"
+COPY --chown=185:root ./welcome-content/ /opt/eap/welcome-content
+
+RUN $JBOSS_HOME/bin/add-user-keycloak.sh -u admin -r master -p pwd
+
+#CMD $JBOSS_HOME/bin/standalone.sh --server-config=standalone-ha1.xml -Djboss.socket.binding.port-offset=1 -Djboss.bind.address=0.0.0.0 -Djboss.default.multicast.address:228.6.7.11 -Djava.nio.channels.spi.SelectorProvider=sun.nio.ch.PollSelectorProvider
+CMD $JBOSS_HOME/bin/standalone.sh --server-config=standalone-ha1.xml -Djboss.socket.binding.port-offset=1 -Djboss.node.name=jdg1 -Djboss.default.multicast.address:228.6.7.12 -Djboss.http.port=8080 -Djboss.bind.address=rh-sso-server-ha1 -Djboss.bind.address.management=rh-sso-server-ha1
+

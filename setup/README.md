@@ -38,4 +38,4 @@
     ```
  
  
- ## The RHSSO server will be available at: http://8080/auth
+ ## The RHSSO server will be available at: http://localhost:8080/auth

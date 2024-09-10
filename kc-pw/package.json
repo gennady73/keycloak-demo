@@ -1,0 +1,19 @@
+{
+  "name": "kc-pw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "debug": "npx playwright test ./e2e/kc-demo.test-4.spec.ts --project=chromium"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "node": "^22.8.0",
+    "@types/node": "^22.5.4",
+    "dotenv":"~16.4.5",
+    "keycloak-js": "^22.0.4"
+  }
+}

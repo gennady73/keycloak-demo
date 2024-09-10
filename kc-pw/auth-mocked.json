@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "KEYCLOAK_IDENTITY",
+      "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzdVRHZWRtejRWQXpuQkJRODhhOVAwZF9HWUtLOHpwZmJmdTVMREF4cFhNIn0.eyJleHAiOjE3MjU4OTQ4MDgsImlhdCI6MTcyNTg5NDUwOCwianRpIjoiMWI5ZmMyYzItNmMwZS00YzQwLTlhNzgtZDM0NDFjZWRhMzA5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tleWNsb2FrLWRlbW8iLCJhdWQiOlsia2MtZnJvbnQtZW5kLWtjLXJlYWN0Iiwia2MtYmFjay1lbmQta2MtcHJvdGVjdGVkLXNlcnZpY2UiLCJyZWFsbS1tYW5hZ2VtZW50Iiwia2MtYmFjay1lbmQta2MtcHJvdGVjdGVkLW0ybS1zZXJ2aWNlIiwiYWNjb3VudCJdLCJzdWIiOiJmMjczZmY4Ny03ZjJiLTRhOGEtYTJmMi0wZDk3MGYwZjljNGMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJrYy1iYWNrLWVuZC1rYy1wcm90ZWN0ZWQtbTJtLXNlcnZpY2Utd2l0aC1zZXJ2aWNlLWFjY291bnQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMiIsImh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1rZXljbG9hay1kZW1vIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImtjLWZyb250LWVuZC1rYy1yZWFjdCI6eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXX0sImtjLWJhY2stZW5kLWtjLXByb3RlY3RlZC1zZXJ2aWNlIjp7InJvbGVzIjpbImFkbWluIiwidXNlciJdfSwicmVhbG0tbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJ2aWV3LXJlYWxtIiwicXVlcnktcmVhbG1zIiwidmlldy11c2VycyIsInF1ZXJ5LWdyb3VwcyIsInF1ZXJ5LXVzZXJzIl19LCJrYy1iYWNrLWVuZC1rYy1wcm90ZWN0ZWQtbTJtLXNlcnZpY2UiOnsicm9sZXMiOlsic2Etcm9sZSIsImFkbWluIiwidXNlciJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRJZCI6ImtjLWJhY2stZW5kLWtjLXByb3RlY3RlZC1tMm0tc2VydmljZS13aXRoLXNlcnZpY2UtYWNjb3VudCIsImNsaWVudEhvc3QiOiIxMC44OS4wLjg0IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWtjLWJhY2stZW5kLWtjLXByb3RlY3RlZC1tMm0tc2VydmljZS13aXRoLXNlcnZpY2UtYWNjb3VudCIsImNsaWVudEFkZHJlc3MiOiIxMC44OS4wLjg0In0.lHrsP-0t-t1U9OQwtfJFD7duB8azAhZ1bycqU_6IHE97Puj9aSlReDQ7WIt3Z1Lfjknz0SG3hWijua5K_uknCxQnIe_iM2n6YiKQL837L5GY4m4sTV3FxLTQDVMJk9NKpvwpLiDnYCVgGDbjzXwWLI2fJl1LTpDCMeD2ypKLH9dEhR5_BqlUeclyS7-uyfiZ9NVagznttyaGhs7jBkxOICdQLDHro5U3qQbgSA4NMsTAHJMz5B1hatDZ8NJvFspZikhrCfcy3rnjHeSw_FnYa0xOm-vIuTZo6jhyQYR6ROk_Pp2jjFLN0mGmN1xBgmbqLFHMcgvHeXNAv4Wb21EkYg",
+      "domain": "localhost",
+      "path": "/auth/realms/keycloak-demo/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AUTH_SESSION_ID",
+      "value": "8fe8f69b-ec60-42f8-a6a9-6626ed05cb41.jdg1",
+      "domain": "localhost",
+      "path": "/auth/realms/keycloak-demo/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "KEYCLOAK_IDENTITY",
+      "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzdVRHZWRtejRWQXpuQkJRODhhOVAwZF9HWUtLOHpwZmJmdTVMREF4cFhNIn0.eyJleHAiOjE3MjU4OTQ4MDgsImlhdCI6MTcyNTg5NDUwOCwianRpIjoiMWI5ZmMyYzItNmMwZS00YzQwLTlhNzgtZDM0NDFjZWRhMzA5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL2tleWNsb2FrLWRlbW8iLCJhdWQiOlsia2MtZnJvbnQtZW5kLWtjLXJlYWN0Iiwia2MtYmFjay1lbmQta2MtcHJvdGVjdGVkLXNlcnZpY2UiLCJyZWFsbS1tYW5hZ2VtZW50Iiwia2MtYmFjay1lbmQta2MtcHJvdGVjdGVkLW0ybS1zZXJ2aWNlIiwiYWNjb3VudCJdLCJzdWIiOiJmMjczZmY4Ny03ZjJiLTRhOGEtYTJmMi0wZDk3MGYwZjljNGMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJrYy1iYWNrLWVuZC1rYy1wcm90ZWN0ZWQtbTJtLXNlcnZpY2Utd2l0aC1zZXJ2aWNlLWFjY291bnQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMiIsImh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1rZXljbG9hay1kZW1vIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImtjLWZyb250LWVuZC1rYy1yZWFjdCI6eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXX0sImtjLWJhY2stZW5kLWtjLXByb3RlY3RlZC1zZXJ2aWNlIjp7InJvbGVzIjpbImFkbWluIiwidXNlciJdfSwicmVhbG0tbWFuYWdlbWVudCI6eyJyb2xlcyI6WyJ2aWV3LXJlYWxtIiwicXVlcnktcmVhbG1zIiwidmlldy11c2VycyIsInF1ZXJ5LWdyb3VwcyIsInF1ZXJ5LXVzZXJzIl19LCJrYy1iYWNrLWVuZC1rYy1wcm90ZWN0ZWQtbTJtLXNlcnZpY2UiOnsicm9sZXMiOlsic2Etcm9sZSIsImFkbWluIiwidXNlciJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRJZCI6ImtjLWJhY2stZW5kLWtjLXByb3RlY3RlZC1tMm0tc2VydmljZS13aXRoLXNlcnZpY2UtYWNjb3VudCIsImNsaWVudEhvc3QiOiIxMC44OS4wLjg0IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWtjLWJhY2stZW5kLWtjLXByb3RlY3RlZC1tMm0tc2VydmljZS13aXRoLXNlcnZpY2UtYWNjb3VudCIsImNsaWVudEFkZHJlc3MiOiIxMC44OS4wLjg0In0.lHrsP-0t-t1U9OQwtfJFD7duB8azAhZ1bycqU_6IHE97Puj9aSlReDQ7WIt3Z1Lfjknz0SG3hWijua5K_uknCxQnIe_iM2n6YiKQL837L5GY4m4sTV3FxLTQDVMJk9NKpvwpLiDnYCVgGDbjzXwWLI2fJl1LTpDCMeD2ypKLH9dEhR5_BqlUeclyS7-uyfiZ9NVagznttyaGhs7jBkxOICdQLDHro5U3qQbgSA4NMsTAHJMz5B1hatDZ8NJvFspZikhrCfcy3rnjHeSw_FnYa0xOm-vIuTZo6jhyQYR6ROk_Pp2jjFLN0mGmN1xBgmbqLFHMcgvHeXNAv4Wb21EkYg",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AUTH_SESSION_ID",
+      "value": "8fe8f69b-ec60-42f8-a6a9-6626ed05cb41.jdg1",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

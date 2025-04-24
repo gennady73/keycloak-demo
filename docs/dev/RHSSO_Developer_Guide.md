@@ -50,7 +50,7 @@ This is the URI pattern (one or more) which the browser can redirect to after co
 
 ### <a name="_kfvr2y9ayb5f"></a>Web Origins
 Governs CORS requests.
-For the CORS nandling by the Keycloak, see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#a-name"kfvr2y9ayb5f"aweb-origins)
+For the CORS nandling by the Keycloak, see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#web-origins)
 
 The **Referrer-Policy** HTTP header controls how much referrer information (sent with the Referer header) should be included with requests. 
 

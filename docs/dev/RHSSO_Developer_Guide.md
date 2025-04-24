@@ -11,6 +11,8 @@ Before diving into the code, let’s overview some definitions that are required
 ### <a name="_tyx68z8nm5m1"></a>Realm
 A realm is a domain(or a namespace) in which several types of entities can be defined, the most prominent being:
 
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_tyx68z8nm5m1")
+
 - **Users:** basic entities that are allowed access to a Keycloak-secured system.
 - **Roles:** a user’s authorization level, such as “admin”, “manager”, “reader” and etc.
 - **Clients:** browser apps and web services that are allowed to request a login.
@@ -18,12 +20,16 @@ A realm is a domain(or a namespace) in which several types of entities can be de
 ### <a name="_lw1mvxslii8u"></a>Token
 The OAuth2 clients (front-end applications) can obtain access tokens from the server and use these same tokens to access resources protected by a resource server (back-end services). 
 
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_lw1mvxslii8u")
+
 Keycloak Authorization Services provide extensions to OAuth2 to allow access tokens to be issued based on the processing of all policies associated with the resource(s) or scope(s) being requested. This means that resource servers can enforce access to their protected resources based on the permissions granted by the server and held by an access token. In Keycloak Authorization Services the access token with permissions is called a Requesting Party Token or RPT for short.
 
 For example,
 The front-end application uses an OAuth2 client in order to authenticate against a Keycloak and in turn obtain an access token with permissions. This token will be used by the front-end to access resources protected by a back-end service.
 ### <a name="_kqkwmthnxq0w"></a>Authorization flows (Grant Type)
 The OAuth 2.0 protocol describes four possible authorization flows while each of them has a particular use case.
+
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_kqkwmthnxq0w")
 
 - **Authorization Code Grant:** used by server side applications.
 
@@ -38,6 +44,9 @@ The OAuth 2.0 protocol describes four possible authorization flows while each of
 
 ### <a name="_bmj3xja4u5wb"></a>Keycloak client
 Clients are browser apps and web services that are either allowed to initiate the login process or have been provided with tokens resulting from earlier logins. The exception is the Bearer-only client which is intended for M2M interactions.
+
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_bmj3xja4u5wb")
+
 ### <a name="_mjiw3l66l0ve"></a>Access Type
 Client Access Type may be one of three possible values:
 
@@ -45,12 +54,16 @@ Client Access Type may be one of three possible values:
 - **Confidential** – clients of this type need to provide a secret in order to initiate the login process.
 - **Public** – since we have no real way of hiding the secret in a JS-based browser app, this is what we need to stick with in the front-end applications.
 
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_mjiw3l66l0ve")
+
 ### <a name="_vpwlf8wqc5o7"></a>Valid Redirect URIs
 This is the URI pattern (one or more) which the browser can redirect to after completing the login process.
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_vpwlf8wqc5o7")
+
 
 ### <a name="_kfvr2y9ayb5f"></a>Web Origins
 Governs CORS requests.
-For the CORS nandling by the Keycloak, see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#web-origins)
+For the CORS nandling by the Keycloak, see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_kfvr2y9ayb5f")
 
 The **Referrer-Policy** HTTP header controls how much referrer information (sent with the Referer header) should be included with requests. 
 
@@ -143,6 +156,9 @@ Client scopes definitions are shared between multiple clients.
 
 Default Client Scopes - are the same as regular Client scope, but added automatically to each created client.
 ## <a name="_mjukgbyncgr8"></a>Roles & Groups
+
+Also see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_mjukgbyncgr8")
+
 - **Role** - define a type or category of user associated with some permission. Admin, user, manager, and employee are all typical roles that may exist in an organization. Applications often assign access and permissions to specific roles rather than individual users as dealing with users can be too fine grained and hard to manage.
   The roles may be of three types: 
   - *Realm roles* - roles are a global over a Realm.
@@ -152,7 +168,7 @@ Default Client Scopes - are the same as regular Client scope, but added automati
 - **Group** - a collection of users that you can apply roles and attributes to in one place. It manages a common set of attributes and role mappings for a set of users. Users can be members of zero or more groups. Users inherit the attributes and role mappings assigned to each group. A group can have many subgroups, but a group can only have one parent. Subgroups inherit the attributes and role mappings from the parent.
 ## <a name="_z9ek1o3we79a"></a>**Getting started** 
 ### <a name="_3h6mov8tmpij"></a>The workflows
-The section describes *relations* between application architecture, workflow and Keycloak client types. Also see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#a-name"3h6mov8tmpij"athe-workflows)
+The section describes *relations* between application architecture, workflow and Keycloak client types. Also see the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_3h6mov8tmpij")
 
 
 |Application type<br>(use)|Authorization flow <br>(Grant Type)|Keycloak client<br>(Access Type)|Notes|
@@ -658,7 +674,7 @@ router.get('/users', keycloak.protect('user'), function (req, res) {
 
 
 ### <a name="_wuodotk3x2tv"></a>Oauth2 Proxy - The alternative (code-free) workflow. 
-See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#a-name"wuodotk3x2tv"aoauth2-proxy---the-alternative-code-free-workflow)
+See also the corresponding section in the [RHSSO Developer Guide Keycloak](/docs/keycloak/RHSSO_Developer_Guide_Keycloak.md#"_wuodotk3x2tv")
 #### <a name="_cuedlvgogitg"></a>Workflow: Web application with Front-end and/or Backend
 
 **Case:**  application which consists of a following:

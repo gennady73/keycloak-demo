@@ -17,7 +17,7 @@ However, each one of them explains these subjects from different perspective:
 
 - [RHSSO Developer Guide](docs/dev/RHSSO_Developer_Guide.md) - Explains the flows from appliation/coding perspective.
   
-- [RHSSO Developer Guide Keycloak](docs/keycloak/RHSSO_Developer_Guide_Keycloak.md) - Explains the flows from Keycloak setup (Client,Role,etc.) perspective.
+- [RHSSO Developer Guide Keycloak](docs/keycloak/RHSSO_Configuration_Guide.md.md) - Explains the flows from Keycloak configuration perspective(configuring Client, Role, etc.).
   
 
 ### Code:    

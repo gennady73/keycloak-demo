@@ -1,6 +1,6 @@
-# Keycloak-SSO demo 
+# Keycloak-SSO demo (workshop)
 
-This guide was created in intent to learn the basics of working with SSO using RHSSO v7.6.4.GA as Keycloak server.
+This workshop(and guides) were created in intent to learn the basics of working with SSO server using RHSSO v7.6.4.GA (aka Keycloak).
 
 ### Prerequisites:
 
@@ -12,13 +12,14 @@ This guide was created in intent to learn the basics of working with SSO using R
 
 ### Using guides:
 
-The guide consists of the following parts while both has same subjects(paragraphs).
-However, each one of them explains these subjects from different perspective:     
+This workshop is built around a demo project that showcases multiple ways to integrate applications with Single Sign-On (SSO) using RH-SSO.
 
-- [RHSSO Developer Guide](docs/dev/RHSSO_Developer_Guide.md) - Explains the flows from appliation/coding perspective.
-  
-- [RHSSO Developer Guide Keycloak](docs/keycloak/RHSSO_Configuration_Guide.md.md) - Explains the flows from Keycloak configuration perspective(configuring Client, Role, etc.).
-  
+To help participants understand both the development and configuration aspects of SSO, the project is accompanied by two complementary guides. Each guide covers the same features and flows implemented in the demo, but from a different perspective:
+
+- [RHSSO Developer Guide](docs/dev/RHSSO_Developer_Guide.md) - Focuses on how SSO is integrated into the application code. It explains authentication flows, token handling, and front-end/back-end interactions from a developer's point of view.
+
+- [RHSSO Configuration Guide](docs/keycloak/RHSSO_Configuration_Guide.md) - Explains how to configure Keycloak to support those flows. It covers client setup, roles, realms, mappers, and other configuration steps from the perspective of an administrator.
+
 
 ### Code:    
 - [Front-end applications](kc-front-end/README.md)    
@@ -31,4 +32,4 @@ However, each one of them explains these subjects from different perspective:
 ### Note: 
 Some sections are still under development.
 
-2023 - 2024
+2023 - 2025

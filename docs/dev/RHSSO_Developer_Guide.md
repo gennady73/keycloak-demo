@@ -1,10 +1,10 @@
-﻿# <a name="_4b0ws9xh4uh7"></a>**SSO Developers guide (crash course)**
+﻿# <a name="_4b0ws9xh4uh7"></a>**RHSSO Developers guide (for applications)**
 #### October 2023
 -------------------------------------------------------------------
 
-This guide starts from the point where the Red Hat SSO(RHSSO) server is up and running.
+This guide starts from the point where the **Red Hat SSO**(RHSSO) server is up and running.
 
-Note that the RHSSO server wraps another product named Keycloak, so further explanations will be provided as interaction with Keycloak for simplicity. 
+Note that the RHSSO server wraps another product named **Keycloak**, so further explanations will be provided as interaction with Keycloak for simplicity. 
 
 ## <a name="_eo65nss1zybc"></a>**Terminology**
 Before diving into the code, let’s overview some definitions that are required for better understanding of authentication/authorization mechanisms and flows, which in turn will be reflected in coding approaches.

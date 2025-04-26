@@ -22,6 +22,36 @@ Create Realm (import):
 
 ![](Aspose.Words.a22510f3-9e76-49e7-8192-e1aca51b31a4.002.png)
 
+To manage RHSSO realms, you can export and import realm configurations.
+
+- **Export Realm Configuration**
+
+For RHSSO 7.6.x version (Keycloak v18)
+```bash
+bin/standalone.sh -Dkeycloak.migration.action=export
+-Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=<FILE TO EXPORT TO>
+```
+
+For newer RHBK versions (Keycloak v21+)
+```bash
+podman exec -it rh-sso-server-ha1 \
+/opt/keycloak/bin/kc.sh export --file /tmp/myrealm.json --realm myrealm
+```
+
+- **Import Realm Configuration**
+
+For RHSSO 7.6.x version (Keycloak v18)
+```bash
+bin/standalone.sh -Dkeycloak.migration.action=import
+-Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=<FILE TO IMPORT>
+-Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+```
+
+For newer RHBK versions (Keycloak v21+)
+```bash
+podman exec -it rh-sso-server-ha1 \
+/opt/keycloak/bin/kc.sh import --file /tmp/myrealm.json --realm myrealm
+```
 
 ### <a name="_lw1mvxslii8u"></a>Token
 The tokens may contain information about user identity(authentication) and/or its access rights(authorization). Each token has an expiration date, hence it needs to be “refreshed” by some period of time. This can be configured in realm in many ways using the following page:

@@ -113,10 +113,10 @@ The corresponding value may be selected as following:
 ### <a name="_vpwlf8wqc5o7"></a>Valid Redirect URIs
 This is the URI pattern (one or more) which the browser can redirect to after completing the login process. Important to mention a key steps in configuration of Redirect  URL setting:
 
-1. Valid Redirect URL - in example below, the absolute value is used (<http://localhost:5000/*>) while the “Root URL” value is left empty.
+1. Valid Redirect URL - in example below, the absolute value is used ```http://localhost:5000/*``` while the “Root URL” value is left empty.
 1. Root URL - in example below, the value is not used, however, it possible to modify the example in order to get the same results by using “Root URL” value as following:
-   1. Root URL = [http://localhost:5000](http://localhost:5000/*)
-   1. Valid Redirect URL = [/*](http://localhost:5000/*)
+   1. Root URL = ```http://localhost:5000```
+   1. Valid Redirect URL = ```/*``` (resolved to: ```http://localhost:5000/*```)
 1. Add or remove URL.
 
 ![](Aspose.Words.a22510f3-9e76-49e7-8192-e1aca51b31a4.007.png)

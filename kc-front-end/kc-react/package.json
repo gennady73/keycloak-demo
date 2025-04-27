@@ -16,10 +16,14 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts --openssl-legacy-provider test",
+    "eject": "react-scripts --openssl-legacy-provider eject",
+    "start_v16": "react-scripts start",
+    "build_v16": "react-scripts build",
+    "test_v16": "react-scripts test",
+    "eject_v16": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

@@ -121,7 +121,9 @@ const SecuredPage = () => {
         console.log("1. uid %s", resourceID);
         var uid = "" + resourceID;
         console.log("2. uid %s", resourceID);
-        uid = (uid && uid.startsWith("user")) ? uid.slice(0, uid.length - 1) : uid;
+        uid = (uid && (uid.startsWith("user"))) ? uid.slice(0, uid.length - 1) : uid;
+        //FIXME
+        uid = (uid && (!uid.startsWith("user") && !uid.startsWith("admin"))) ? "user" : uid;
         console.log("3. uid %s", uid);
 
         const { status, response } = (isM2M === true)? await fetchResourceM2M(uid) : await fetchResource(uid);

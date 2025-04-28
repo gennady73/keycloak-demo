@@ -25,6 +25,7 @@ services:
       - "9139:9139"
       - "10241:10241"
       - "9991:9991"
+      - "8080:8081"
     environment:
       PROXY_ADDRESS_FORWARDING: "true"
       KEYCLOAK_ADMIN: "admin"

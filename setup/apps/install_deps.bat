@@ -11,27 +11,27 @@ echo Installing dependencies...
 
 cd %BASE_DIR%\kc-back-end\kc-api-gateway
 echo Installing kc-api-gateway...
-npm install
+call npm install
 
 cd %BASE_DIR%\kc-back-end\kc-protected-m2m-service
 echo Installing kc-protected-m2m-service...
-npm install
+call npm install
 
 cd %BASE_DIR%\kc-back-end\kc-protected-sa-service
 echo Installing kc-protected-sa-service...
-npm install
+call npm install
 
 cd %BASE_DIR%\kc-back-end\kc-protected-service
 echo Installing kc-protected-service...
-npm install
+call npm install
 
 cd %BASE_DIR%\kc-back-end\kc-unprotected-service
 echo Installing kc-unprotected-service...
-npm install
+call npm install
 
 cd %BASE_DIR%\kc-front-end\kc-react
 echo Installing kc-react...
-npm install
+call npm install
 
 REM Go back to the directory where the script is located
 cd %~dp0
